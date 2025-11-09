@@ -4,7 +4,7 @@ use std::{
     io::{self, Write},
 };
 
-use crate::{db::DB, interpret_tokens, parser::parse_string};
+use crate::{db::DB, interpreter::interpret_tokens, parser::parse_string};
 
 pub struct Cli {
     db: DB,
@@ -46,7 +46,7 @@ impl Cli {
                     println!("TOKENS = {:?}", tokens);
                     interpret_tokens(&mut self.db, tokens);
                 }
-                None => (),
+                None => break,
             }
         }
     }

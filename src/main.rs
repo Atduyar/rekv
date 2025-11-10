@@ -41,14 +41,19 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let db = Arc::new(DB::new());
 
+    // TODO: Need better cli arguments parsing.
     if (args.len() > 1 && args[1] == "--cli") {
         let mut cli = Cli::new(db.as_ref());
         cli.repl();
     } else {
+        let addr = if (args.len() > 2 && args[1] == "--addr") {
+            args[2].clone()
+        } else { "127.0.0.1:4242".to_string() };
+
         // TODO: Move this and handle client to different file,
         smol::block_on(async {
-            let listener = TcpListener::bind("127.0.0.1:4242").await.unwrap();
-            println!("Server started at 127.0.0.1:4242");
+            let listener = TcpListener::bind(&addr).await.unwrap();
+            println!("Server started at {}", &addr);
 
             loop {
                 let (stream, addr) = listener.accept().await.unwrap();

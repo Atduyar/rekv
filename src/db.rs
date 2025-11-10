@@ -19,12 +19,12 @@ impl DB {
         db.get(key).cloned()
     }
 
-    pub fn insert(&mut self, key: Key, value: Value) -> Option<Value> {
+    pub fn insert(&self, key: Key, value: Value) -> Option<Value> {
         let mut db = self.db.lock().unwrap();
         db.insert(key, value)
     }
 
-    pub fn remove(&mut self, key: &Key) -> Option<Value> {
+    pub fn remove(&self, key: &Key) -> Option<Value> {
         let mut db = self.db.lock().unwrap();
         db.remove(key)
     }

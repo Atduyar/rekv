@@ -6,12 +6,12 @@ use std::{
 
 use crate::{db::DB, interpreter::interpret_tokens, parser::parse_string};
 
-pub struct Cli {
-    db: DB,
+pub struct Cli<'a> {
+    db: &'a DB,
 }
 
-impl Cli {
-    pub fn new(mut db: DB) -> Self {
+impl<'a> Cli<'a> {
+    pub fn new(db: &'a DB) -> Self {
         Cli { db }
     }
 

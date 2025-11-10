@@ -8,23 +8,22 @@ use crate::{db::DB, parser::*};
 // DEL <string>
 // ADD <string>
 // ADD <string> <Number>
-pub fn interpret_tokens(db: &mut DB, tokens: Vec<Token>) {
+// TODO: Return a Result.
+pub fn interpret_tokens(db: &DB, tokens: Vec<Token>) -> String {
     match tokens.get(0) {
         None => {
-            println!("ERROR: Command is empty");
-            return;
+            return "ERROR: Command is empty".to_string();
         }
         Some(Token::Value(_)) => {
-            println!("ERROR: First token cannot be a Value");
-            return;
+            return "ERROR: First token cannot be a Value".to_string();
         }
         Some(Token::Commands(Commands::GET)) => {
             if let Some(Token::Value(KVValue::STRING(s))) = tokens.get(1) {
                 // TODO: print the value, not the data structure (eg. 1 instead of Token(Number(1)))
                 // Kayra
-                println!("= {:?}", db.get(s));
+                return format!("= {:?}", db.get(s));
             } else {
-                println!("Usage: GET <String>")
+                return "Usage: GET <String>".to_string();
             }
         }
         Some(Token::Commands(Commands::SET)) => {
@@ -32,9 +31,9 @@ pub fn interpret_tokens(db: &mut DB, tokens: Vec<Token>) {
                 && let Some(Token::Value(v)) = tokens.get(2)
             {
                 db.insert(s.clone(), v.clone());
-                println!("OK");
+                return "OK".to_string();
             } else {
-                println!("Usage: SET <String> <Value>")
+                return "Usage: SET <String> <Value>".to_string();
             }
         }
         Some(Token::Commands(Commands::DEL)) => {
@@ -42,12 +41,12 @@ pub fn interpret_tokens(db: &mut DB, tokens: Vec<Token>) {
                 match &tokens[1] {
                     Token::Value(KVValue::STRING(key)) => {
                         db.remove(key);
-                        println!("Deleted key: {}", key);
+                        return format!("Deleted key: {}", key);
                     }
-                    _ => println!("Error: Expected a string value"),
+                    _ => return "Error: Expected a string value".to_string(),
                 }
             } else {
-                println!("Usage: DEL <key>");
+                return "Usage: DEL <key>".to_string();
             }
         }
         Some(Token::Commands(Commands::ADD)) => {
@@ -59,10 +58,12 @@ pub fn interpret_tokens(db: &mut DB, tokens: Vec<Token>) {
                 };
                 if let Some(KVValue::NUMBER(num)) = db.get(s) {
                     db.insert(s.clone(), KVValue::NUMBER(num + n));
-                    println!("OK");
+                    return "OK".to_string();
+                } else {
+                    return "Usage: ADD <String> [Number]".to_string();
                 }
             } else {
-                println!("Usage: ADD <String> [Number]")
+                return "Usage: ADD <String> [Number]".to_string();
             }
         }
         Some(Token::Commands(Commands::SUB)) => {
@@ -73,12 +74,13 @@ pub fn interpret_tokens(db: &mut DB, tokens: Vec<Token>) {
                 };
                 if let Some(KVValue::NUMBER(num)) = db.get(s) {
                     db.insert(s.clone(), KVValue::NUMBER(num - n));
-                    println!("OK");
+                    return "OK".to_string();
+                } else {
+                    return "Usage: SUB <String> [Number]".to_string();
                 }
             } else {
-                println!("Usage: SUB <String> [Number]")
+                return "Usage: SUB <String> [Number]".to_string();
             }
         }
     }
 }
-

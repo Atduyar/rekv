@@ -3,13 +3,6 @@
 version = 4
 
 [[package]]
-name = "KeyValueStore"
-version = "0.1.0"
-dependencies = [
- "smol",
-]
-
-[[package]]
 name = "async-channel"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -295,6 +288,13 @@ dependencies = [
  "pin-project-lite",
  "rustix",
  "windows-sys",
+]
+
+[[package]]
+name = "rekv"
+version = "0.0.1"
+dependencies = [
+ "smol",
 ]
 
 [[package]]

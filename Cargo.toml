@@ -1,7 +1,13 @@
 [package]
-name = "KeyValueStore"
-version = "0.1.0"
+name = "rekv"
+version = "0.0.1"
+authors = ["atduyar"]
 edition = "2024"
+repository = "https://github.com/atduyar/rekv"
+description = """
+An experimanntal redis like Key-Value-Store client and server.
+"""
+license = "MIT"
 
 [dependencies]
 smol = "2.0.2"

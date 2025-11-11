@@ -44,7 +44,8 @@ impl<'a> Cli<'a> {
                 Some(input) => {
                     let tokens = parse_string(input);
                     println!("TOKENS = {:?}", tokens);
-                    interpret_tokens(&mut self.db, tokens);
+                    let res = interpret_tokens(&mut self.db, tokens);
+                    println!("{res}");
                 }
                 None => break,
             }

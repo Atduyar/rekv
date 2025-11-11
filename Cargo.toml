@@ -1,6 +1,6 @@
 [package]
 name = "rekv"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["atduyar"]
 edition = "2024"
 repository = "https://github.com/atduyar/rekv"
